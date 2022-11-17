@@ -27,7 +27,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - price
 - [OPTIONAL] category
 
-Table: products (id:number, name:varchar, price:decimal, category:varchar)
+Table: products (id:number, name:varchar, price:numeric, category:varchar)
 
 #### User
 - id
@@ -44,7 +44,7 @@ Table: users (id:number, firstName:varchar, lastName:varchar, password:varchar)
 - user_id
 - status of order (active or complete)
 
-Table: orders (id:number, user_id:number, status:varchar)
-Table: order_product (id:number, order_id:number[foreign key to orders table],
+Table: orders (id:number, user_id:number, status:varchar)\
+Table: orders_products (id:number, order_id:number[foreign key to orders table],
 product_id:number[foreign key to products table],
 products_quantity:number)
