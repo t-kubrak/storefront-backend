@@ -15,6 +15,10 @@ describe("Product Model", () => {
         expect(store.create).toBeDefined();
     });
 
+    it('should have an update method', () => {
+        expect(store.update).toBeDefined();
+    });
+
     it('should have a delete method', () => {
         expect(store.delete).toBeDefined();
     });
@@ -52,6 +56,22 @@ describe("Product Model", () => {
             name: 'Laptop',
             price: 1500,
             category: 'electronics',
+        });
+    });
+
+    it('update method should update a product', async () => {
+        const result = await store.update({
+            id: 1,
+            name: 'flower',
+            price: 15,
+            category: 'garden',
+        });
+
+        expect(result).toEqual({
+            id: 1,
+            name: 'flower',
+            price: 15,
+            category: 'garden',
         });
     });
 
