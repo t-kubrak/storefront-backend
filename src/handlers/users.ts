@@ -29,7 +29,6 @@ const create = async (req: Request, res: Response) => {
     } catch(err) {
         res.status(400)
         res.json({ err, user })
-        return
     }
 }
 
@@ -40,9 +39,13 @@ const verifyAuthToken = (req: Request, res: Response, next: Function) => {
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
 
         next()
-    } catch (error) {
+    } catch (err) {
         res.status(401)
-        return
+        if (err instanceof Error) {
+            console.log(err.message)
+        }
+
+        res.send('Couldn\'t authorize the token')
     }
 }
 
