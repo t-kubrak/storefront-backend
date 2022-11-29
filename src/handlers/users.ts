@@ -32,7 +32,7 @@ const create = async (req: Request, res: Response) => {
     }
 }
 
-const verifyAuthToken = (req: Request, res: Response, next: Function) => {
+export const verifyAuthToken = (req: Request, res: Response, next: Function) => {
     try {
         const authorizationHeader = req.headers.authorization!
         const token = authorizationHeader.split(' ')[1]
@@ -49,10 +49,10 @@ const verifyAuthToken = (req: Request, res: Response, next: Function) => {
     }
 }
 
-const productRoutes = (app: express.Application) => {
+const userRoutes = (app: express.Application) => {
     app.get('/users', verifyAuthToken, index)
     app.get('/users/:id', verifyAuthToken, show)
     app.post('/users', create)
 }
 
-export default productRoutes
+export default userRoutes
