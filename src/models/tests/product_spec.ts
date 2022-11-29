@@ -1,6 +1,7 @@
 import { Product, ProductsStore } from '../product';
 
 const store = new ProductsStore()
+let product: Product;
 
 describe("Product Model", () => {
     it('should have an index method', () => {
@@ -24,14 +25,14 @@ describe("Product Model", () => {
     });
 
     it('create method should add a product', async () => {
-        const result = await store.create({
+        product = await store.create({
             name: 'Laptop',
             price: 1500,
             category: 'electronics',
         });
 
-        expect(result).toEqual({
-            id: 1,
+        expect(product).toEqual({
+            id: product.id!,
             name: 'Laptop',
             price: 1500,
             category: 'electronics',
@@ -41,18 +42,13 @@ describe("Product Model", () => {
     it('index method should return a list of products', async () => {
         const result = await store.index();
 
-        expect(result).toEqual([{
-            id: 1,
-            name: 'Laptop',
-            price: 1500,
-            category: 'electronics',
-        }]);
+        expect(result.length).toBeGreaterThan(0);
     });
 
     it('show method should return the correct product', async () => {
-        const result = await store.show(1);
+        const result = await store.show(product.id!);
         expect(result).toEqual({
-            id: 1,
+            id: product.id!,
             name: 'Laptop',
             price: 1500,
             category: 'electronics',
@@ -61,14 +57,14 @@ describe("Product Model", () => {
 
     it('update method should update a product', async () => {
         const result = await store.update({
-            id: 1,
+            id: product.id!,
             name: 'flower',
             price: 15,
             category: 'garden',
         });
 
         expect(result).toEqual({
-            id: 1,
+            id: product.id!,
             name: 'flower',
             price: 15,
             category: 'garden',
@@ -76,9 +72,13 @@ describe("Product Model", () => {
     });
 
     it('delete method should remove the product', async () => {
-        store.delete(1);
-        const result = await store.index()
+        const result = await store.delete(product.id!);
 
-        expect(result).toEqual([]);
+        expect(result).toEqual({
+            id: product.id!,
+            name: 'flower',
+            price: 15,
+            category: 'garden',
+        });
     });
 });

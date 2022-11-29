@@ -2,12 +2,11 @@
 import Client from '../database'
 // @ts-ignore
 import bcrypt from 'bcrypt';
-import {Product} from "./product";
 
 export type User = {
     id?: number;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     password: string;
 }
 
@@ -28,7 +27,7 @@ export class UsersStore {
         }
     }
 
-    async show(id: string): Promise<User> {
+    async show(id: number): Promise<User> {
         try {
             const sql = 'SELECT * FROM users WHERE id=($1)'
             // @ts-ignore
@@ -58,24 +57,23 @@ export class UsersStore {
                 parseInt(saltRounds)
             );
 
-            const result = await conn.query(sql, [u.firstName, u.lastName, hash])
+            const result = await conn.query(sql, [u.first_name, u.last_name, hash])
             const user = result.rows[0]
 
             conn.release()
 
             return user
         } catch (err) {
-            throw new Error(`unable create user (${u.firstName} ${u.lastName}): ${err}`)
+            throw new Error(`unable create user (${u.first_name} ${u.last_name}): ${err}`)
         }
     }
 
     async authenticate(firstName: string, lastName: string, password: string): Promise<User | null> {
         // @ts-ignore
         const conn = await Client.connect()
-        const sql = 'SELECT * FROM users WHERE (first_name=$1) AND (last_name=($2)) '
+        const sql = 'SELECT * FROM users WHERE (first_name=$1) AND (last_name=$2) '
 
         const result = await conn.query(sql, [firstName, lastName])
-
         const pepper = process.env.BCRYPT_PASSWORD;
 
         if (result.rows.length) {
@@ -87,5 +85,23 @@ export class UsersStore {
         }
 
         return null
+    }
+
+    async delete(id: number): Promise<User> {
+        try {
+            const sql = 'DELETE FROM users WHERE id=($1) RETURNING *'
+            // @ts-ignore
+            const conn = await Client.connect()
+
+            const result = await conn.query(sql, [id])
+
+            const user = result.rows[0]
+
+            conn.release()
+
+            return user
+        } catch (err) {
+            throw new Error(`Could not delete product ${id}. Error: ${err}`)
+        }
     }
 }

@@ -11,14 +11,14 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-    const users = await store.show(req.params.id)
+    const users = await store.show(parseInt(req.params.id))
     res.json(users)
 }
 
 const create = async (req: Request, res: Response) => {
     const user: User = {
-        firstName: req.body.first_name,
-        lastName: req.body.last_name,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
         password: req.body.password,
     }
 
