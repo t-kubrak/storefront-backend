@@ -4,13 +4,13 @@ import {Product, ProductsStore} from '../models/product'
 const store = new ProductsStore()
 
 const index = async (_req: Request, res: Response) => {
-    const articles = await store.index()
-    res.json(articles)
+    const products = await store.index()
+    res.json(products)
 }
 
 const show = async (req: Request, res: Response) => {
-    const article = await store.show(req.body.id)
-    res.json(article)
+    const product = await store.show(parseInt(req.params.id)!)
+    res.json(product)
 }
 
 const create = async (req: Request, res: Response) => {
@@ -30,7 +30,7 @@ const create = async (req: Request, res: Response) => {
 }
 
 const destroy = async (req: Request, res: Response) => {
-    const deleted = await store.delete(req.body.id)
+    const deleted = await store.delete(parseInt(req.params.id)!)
     res.json(deleted)
 }
 
@@ -38,7 +38,7 @@ const productRoutes = (app: express.Application) => {
     app.get('/products', index)
     app.get('/products/:id', show)
     app.post('/products', create)
-    app.delete('/products', destroy)
+    app.delete('/products/:id', destroy)
 }
 
 export default productRoutes
