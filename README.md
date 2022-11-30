@@ -12,7 +12,9 @@ customers and orders in an online store.
    If you have docker and docker-compose installed, just run the following command: `docker-compose up -d`\
    It will download and install postgresql image. It's going to use the env variables from `.env` file to set it up\
    The db was running locally on port 5432 and backed on port 3000
-3. `npm install` to install the packages
-3. `db-migrate up` to run db migrations
-4. `npm build && npm start` to build and run the server
-5. `npm run test` to run the tests
+3. Note: please change the `ENV` variable to `test` in the `.env` file to run the tests ot set it to `dev` to\
+   do see it live. The `ENV=test` in the `test` command in the `package.json` doesn't work.
+4. `npm install` to install the packages
+5. `db-migrate up` to run db migrations
+6. `npm build && npm start` to build and run the server
+7. `npm run test` to run the tests
