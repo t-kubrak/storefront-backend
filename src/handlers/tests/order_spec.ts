@@ -34,7 +34,7 @@ describe('Test  endpoints responses', () => {
     });
 
     it('adds product to the order', async () => {
-        const response = await request.get(`/orders/${orderId}/products`)
+        const response = await request.post(`/orders/${orderId}/products`)
             .send({product_id: productId, product_quantity: 3})
             .set('Authorization', 'Bearer ' + token)
 
@@ -49,13 +49,16 @@ describe('Test  endpoints responses', () => {
         const response = await request.get(`/users/${userId}/orders`)
             .set('Authorization', 'Bearer ' + token)
 
+        const bodyProps = Object.keys(response.body[0]);
+
         expect(response.status).toBe(200);
         expect(response.headers['content-type']).toMatch(/json/);
         expect(response.body.length).toBeGreaterThan(0);
-        expect(response.body[0]).toContain('id')
-        expect(response.body[0]).toContain('product_id')
-        expect(response.body[0]).toContain('product_quantity')
-        expect(response.body[0]).toContain('user_id')
-        expect(response.body[0]).toContain('status')
+
+        expect(bodyProps).toContain('id');
+        expect(bodyProps).toContain('product_id')
+        expect(bodyProps).toContain('product_quantity')
+        expect(bodyProps).toContain('user_id')
+        expect(bodyProps).toContain('status')
     });
 });

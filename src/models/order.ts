@@ -34,7 +34,7 @@ export class OrderStore {
 
             conn.release()
 
-            return result.rows[0]
+            return result.rows
         } catch (err) {
             throw new Error(`Could not find order with user id: ${userId}. Error: ${err}`)
         }

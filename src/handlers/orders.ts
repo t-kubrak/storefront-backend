@@ -16,7 +16,6 @@ const create = async (req: Request, res: Response) => {
         const authorizationHeader = req.headers.authorization!
         const token = authorizationHeader.split(' ')[1]
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
-        console.log(decoded)
 
         const order = await store.create(decoded.user.id!)
         res.json(order)
