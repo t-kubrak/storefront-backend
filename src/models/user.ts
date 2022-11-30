@@ -37,7 +37,6 @@ export class UsersStore {
 
             conn.release()
 
-            console.log(result.rows)
             return result.rows[0]
         } catch (err) {
             throw new Error(`Could not find product ${id}. Error: ${err}`)

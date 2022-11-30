@@ -5,7 +5,7 @@ const request = supertest(app);
 
 let productId: number;
 
-describe('Test endpoint responses', () => {
+describe('Test products endpoints responses', () => {
     it('creates the product', async () => {
         const response = await request.post('/products/')
             .send({name: 'pencil', 'price': 50, 'category': 'office'})

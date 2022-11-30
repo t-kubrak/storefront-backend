@@ -11,8 +11,8 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-    const users = await store.show(parseInt(req.params.id))
-    res.json(users)
+    const user = await store.show(parseInt(req.params.id))
+    res.json(user)
 }
 
 const create = async (req: Request, res: Response) => {
