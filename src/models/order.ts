@@ -23,7 +23,7 @@ export type CurrentOder = {
 }
 
 export class OrderStore {
-    async current(userId: number): Promise<CurrentOder> {
+    async current(userId: number): Promise<CurrentOder[]> {
         try {
             const sql = 'SELECT o.id, op.product_id, op.product_quantity, o.user_id, o.status' +
                 ' FROM orders o JOIN orders_products op ON o.id = op.order_id WHERE o.user_id=($1) and o.status = \'current\'';

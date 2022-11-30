@@ -9,6 +9,7 @@ const userStore = new UsersStore()
 const productStore = new ProductsStore()
 let user: User;
 let product: Product;
+let orderId: number;
 
 describe("Product Model", () => {
     it('should have an current method', () => {
@@ -49,35 +50,33 @@ describe("Product Model", () => {
     })
 
     it('create method should add an order', async () => {
-        const result = await store.create(1);
+        const result = await store.create(user.id!);
+        orderId = result.id!
 
-        expect(result).toEqual({
-            id: 1,
+        expect(result).toEqual(jasmine.objectContaining({
             user_id: user.id!,
             status: 'current'
-        });
+        }));
     });
 
     it('create method should add product to the order', async () => {
-        const result = await store.addProduct(2, 1, 1);
+        const result = await store.addProduct(2, orderId, product.id!);
 
-        expect(result).toEqual({
-            id: 1,
-            order_id: 1,
+        expect(result).toEqual(jasmine.objectContaining({
+            order_id: orderId,
             product_id: product.id!,
             product_quantity: 2
-        });
+        }));
     });
 
     it('current method should return the current user\'s order', async () => {
-        const result = await store.current(1);
+        const result = await store.current(user.id!);
 
-        expect(result).toEqual({
-            id: 1,
+        expect(result[0]).toEqual(jasmine.objectContaining({
             product_id: product.id!,
             product_quantity: 2,
             user_id: user.id!,
-            status: 'current',
-        });
+            status: 'current'
+        }));
     });
 });
