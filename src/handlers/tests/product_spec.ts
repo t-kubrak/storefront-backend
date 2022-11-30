@@ -21,12 +21,13 @@ describe('Test products endpoints responses', () => {
     it('gets the available products', async () => {
         const response = await request.get('/products/');
 
+        const bodyProps = Object.keys(response.body[0]);
         expect(response.status).toBe(200);
-        expect(response.body).toHaveSize(1);
-        expect(response.body[0].id).toEqual(productId);
-        expect(response.body[0].name).toEqual('pencil');
-        expect(response.body[0].price).toEqual(50);
-        expect(response.body[0].category).toEqual('office');
+        expect(response.body.length).toBeGreaterThan(0);
+        expect(bodyProps).toContain('id');
+        expect(bodyProps).toContain('name');
+        expect(bodyProps).toContain('price');
+        expect(bodyProps).toContain('category');
     });
 
     it('shows the product', async () => {
