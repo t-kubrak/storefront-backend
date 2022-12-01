@@ -4,10 +4,18 @@ import app from '../../server';
 const request = supertest(app);
 
 let productId: number;
+let token: string;
 
 describe('Test products endpoints responses', () => {
+    beforeAll(async () => {
+        const response = await request.post('/users')
+            .send({first_name: 'Jack', last_name: 'Johnson', password: 'test'})
+        token = response.body.token;
+    })
+
     it('creates the product', async () => {
         const response = await request.post('/products/')
+            .set('Authorization', 'Bearer ' + token)
             .send({name: 'pencil', 'price': 50, 'category': 'office'})
         productId = response.body.id;
 

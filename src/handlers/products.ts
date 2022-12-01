@@ -1,16 +1,27 @@
 import express, { Request, Response } from 'express'
 import {Product, ProductsStore} from '../models/product'
+import {verifyAuthToken} from "./users";
 
 const store = new ProductsStore()
 
 const index = async (_req: Request, res: Response) => {
-    const products = await store.index()
-    res.json(products)
+    try {
+        const products = await store.index()
+        res.json(products)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
 }
 
 const show = async (req: Request, res: Response) => {
-    const product = await store.show(parseInt(req.params.id)!)
-    res.json(product)
+    try {
+        const product = await store.show(parseInt(req.params.id)!)
+        res.json(product)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
 }
 
 const create = async (req: Request, res: Response) => {

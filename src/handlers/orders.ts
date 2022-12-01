@@ -7,8 +7,13 @@ import jwt from 'jsonwebtoken';
 const store = new OrderStore()
 
 const current = async (req: Request, res: Response) => {
-    const orders = await store.current(parseInt(req.params.id)!)
-    res.json(orders)
+    try {
+        const orders = await store.current(parseInt(req.params.id)!)
+        res.json(orders)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
 }
 
 const create = async (req: Request, res: Response) => {

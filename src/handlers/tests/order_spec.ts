@@ -16,6 +16,7 @@ describe('Test  endpoints responses', () => {
         userId = userResponse.body.id;
 
         const productResponse = await request.post('/products/')
+            .set('Authorization', 'Bearer ' + token)
             .send({name: 'pencil', 'price': 50, 'category': 'office'})
         productId = productResponse.body.id;
     })
